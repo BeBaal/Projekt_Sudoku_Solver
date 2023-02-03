@@ -1,8 +1,11 @@
 import pandas as pd
 
-#soduku_matrix = np.zeros(shape=(9, 9), dtype=int)
+# ToDo Implement time keeping
+# ToDo reading from table
+# ToDo implement parallel processing
 
-SODUKU_MATRIX = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
+
+SUDOKU_MATRIX = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
                 [6, 0, 0, 1, 9, 5, 0, 0, 0],
                 [0, 9, 8, 0, 0, 0, 0, 6, 0],
                 [8, 0, 0, 0, 6, 0, 0, 0, 3],
@@ -12,18 +15,18 @@ SODUKU_MATRIX = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
                 [0, 0, 0, 4, 1, 9, 0, 0, 5],
                 [0, 0, 0, 0, 8, 0, 0, 0, 0]]
 
-SODUKU_MATRIX = pd.DataFrame(SODUKU_MATRIX)
+SUDOKU_MATRIX = pd.DataFrame(SUDOKU_MATRIX)
 
 
 
 def validation(row,column,number_to_insert):
 
     # check row for number
-    if (SODUKU_MATRIX.iloc[row,:].isin([number_to_insert]).sum()):
+    if (SUDOKU_MATRIX.iloc[row,:].isin([number_to_insert]).sum()):
         return False
     
     # check column for number
-    if (SODUKU_MATRIX.iloc[:,column].isin([number_to_insert]).sum()):
+    if (SUDOKU_MATRIX.iloc[:,column].isin([number_to_insert]).sum()):
         return False
     
     # check quadrant for number
@@ -33,7 +36,7 @@ def validation(row,column,number_to_insert):
     # loop over quadrant
     for i in range(3):
             for j in range(3):
-                if SODUKU_MATRIX.iloc[row_group + i,
+                if SUDOKU_MATRIX.iloc[row_group + i,
                                       column_group + j] == number_to_insert:
                     return False
     
@@ -48,18 +51,17 @@ def main():
         for columns in range(9):
             
             # check if cell is empty
-            if SODUKU_MATRIX.iloc[rows, columns] == 0:
+            if SUDOKU_MATRIX.iloc[rows, columns] == 0:
 
                 # try all numbers
                 for number in range(1,10):
-                    #print("Number: " + str(number))
                     if  validation(rows, columns, number):
-                        SODUKU_MATRIX.iloc[rows, columns] = number
+                        SUDOKU_MATRIX.iloc[rows, columns] = number
                         main()
-                        SODUKU_MATRIX.iloc[rows, columns] = 0
+                        SUDOKU_MATRIX.iloc[rows, columns] = 0
                 return
             
-    print(SODUKU_MATRIX) 
+    print(SUDOKU_MATRIX) 
     input("More?")
                 
     
